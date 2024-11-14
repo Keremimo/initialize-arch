@@ -34,6 +34,7 @@ func InitializeCredentials(c *Credentials) error {
 		return err
 	}
 	c.Password = string(password)
+	// TODO: Gotta remove those printlines below after everything's done.
 	fmt.Println(c.Username)
 	fmt.Println(c.Email)
 	fmt.Println(c.Password)
