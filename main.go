@@ -34,14 +34,16 @@ func InitializeCredentials(c *Credentials) error {
 		return err
 	}
 	c.Password = string(password)
-	// TODO: Gotta remove those printlines below after everything's done.
-	fmt.Println(c.Username)
-	fmt.Println(c.Email)
-	fmt.Println(c.Password)
+
 	return nil
 }
 
 func main() {
 	credentials := new(Credentials)
-	InitializeCredentials(credentials)
+	err := InitializeCredentials(credentials)
+	if err != nil {
+		fmt.Println("Something horrible happened.")
+		fmt.Println(err)
+	}
+	fmt.Printf("Your username is %s, your email is %s and your password is safe with us.", credentials.Username, credentials.Email)
 }
