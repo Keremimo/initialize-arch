@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"os/exec"
 	"strings"
 	"syscall"
 
@@ -47,6 +48,12 @@ func InitializeCredentials(c *Credentials) error {
 	return nil
 }
 
+func EnableBluetooth(c *Credentials) {
+	out, _ := exec.Command("/bin/sh", "-c", "echo '%s' | sudo -S systemctl enable --now bluetooth", c.Password).Output()
+
+	fmt.Println(string(out[:]))
+}
+
 func main() {
 	credentials := new(Credentials)
 	err := InitializeCredentials(credentials)
@@ -55,4 +62,6 @@ func main() {
 		fmt.Println(err)
 	}
 	fmt.Printf("Your username is %q, github name is %q, your email is %q and your password is safe with us.", credentials.Username, credentials.GithubName, credentials.Email)
+
+	EnableBluetooth(credentials)
 }
