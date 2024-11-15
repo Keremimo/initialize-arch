@@ -3,31 +3,41 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"golang.org/x/term"
 	"os"
+	"strings"
 	"syscall"
+
+	"golang.org/x/term"
 )
 
 type Credentials struct {
-	Username string
-	Password string
-	Email    string
+	Username   string
+	Password   string
+	Email      string
+	GithubName string
 }
 
 func InitializeCredentials(c *Credentials) error {
 	reader := bufio.NewReader(os.Stdin)
+	byteline := []byte{'\n'}
 	fmt.Println("Enter username: ")
 	username, err := reader.ReadString('\n')
 	if err != nil {
 		return err
 	}
-	c.Username = username
+	c.Username = strings.TrimSuffix(username, string(byteline))
 	fmt.Println("Enter your e-mail address: ")
 	email, err := reader.ReadString('\n')
 	if err != nil {
 		return err
 	}
-	c.Email = email
+	c.Email = strings.TrimSuffix(email, string(byteline))
+	fmt.Println("Input your GitHub name: ")
+	githubName, err := reader.ReadString('\n')
+	if err != nil {
+		return err
+	}
+	c.GithubName = strings.TrimSuffix(githubName, string(byteline))
 	fmt.Println("Input a password")
 	password, err := term.ReadPassword(syscall.Stdin)
 	if err != nil {
@@ -45,5 +55,5 @@ func main() {
 		fmt.Println("Something horrible happened.")
 		fmt.Println(err)
 	}
-	fmt.Printf("Your username is %s, your email is %s and your password is safe with us.", credentials.Username, credentials.Email)
+	fmt.Printf("Your username is %q, github name is %q, your email is %q and your password is safe with us.", credentials.Username, credentials.GithubName, credentials.Email)
 }
