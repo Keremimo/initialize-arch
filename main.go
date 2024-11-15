@@ -16,8 +16,12 @@ func main() {
 		fmt.Println(err)
 	}
 	err = execfunc.EnableBluetooth(credentials)
+	if err != nil {
+		fmt.Println(err)
+	}
 	err = execfunc.InstallPackages(credentials, "bitwarden-cli github-cli")
 	if err != nil {
 		fmt.Println(err)
 	}
+
 }
