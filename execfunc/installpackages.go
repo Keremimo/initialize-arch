@@ -9,7 +9,7 @@ import (
 )
 
 func InstallPackages(c *credmanagement.Credentials, p string) error {
-	cmd := exec.Command("/bin/sh", "-c", fmt.Sprintf("echo '%s' | sudo -S pacman -S --noconfirm %s", c.Password, p))
+	cmd := exec.Command("/bin/sh", "-c", fmt.Sprintf("echo '%s' | sudo -S pacman -S --noconfirm --needed %s", c.Password, p))
 
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout
