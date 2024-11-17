@@ -54,5 +54,6 @@ func main() {
 
 	githubssh.FetchGithubPAT(bwCredentials.Session, bwCredentials.Password, credentials)
 
+	fmt.Println("Here's your github access token: ")
 	fmt.Println(credentials.GithubToken)
 }
