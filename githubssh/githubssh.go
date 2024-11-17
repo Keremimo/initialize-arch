@@ -14,10 +14,10 @@ import (
 )
 
 // FetchGithubPAT retrieves the GitHub personal access token from Bitwarden
-func FetchGithubPAT(bitwardenSession, masterPassword string, c *credmanagement.Credentials) (string, error) {
+func FetchGithubPAT(bitwardenSession, masterPassword string, c *credmanagement.Credentials) error {
 	console, err := expect.NewConsole(expect.WithDefaultTimeout(5 * time.Second))
 	if err != nil {
-		return "", fmt.Errorf("failed to create console: %v", err)
+		return fmt.Errorf("failed to create console: %v", err)
 	}
 	defer console.Close()
 
@@ -28,35 +28,13 @@ func FetchGithubPAT(bitwardenSession, masterPassword string, c *credmanagement.C
 	cmd.Stderr = console.Tty()
 
 	if err := cmd.Start(); err != nil {
-		return "", fmt.Errorf("failed to start command: %v", err)
-	}
-
-	// Handle input delays
-	fmt.Println("Waiting for 'Master password:' prompt...")
-	console.ExpectString("Master password:")
-	console.SendLine(masterPassword)
-
-	if err := cmd.Wait(); err != nil {
-		return "", fmt.Errorf("failed to wait for command: %v", err)
+		return fmt.Errorf("failed to start command: %v", err)
 	}
 
 	output, _ := console.ExpectEOF()
 	sessionToken := strings.TrimSpace(output)
-
-	if sessionToken == "" {
-		return "", fmt.Errorf("failed to extract GitHub PAT")
-	}
-	// Extract the `github_pat` field from the item JSON
-	start := strings.Index(sessionToken, `"github_pat":"`)
-	if start == -1 {
-		return "", fmt.Errorf("github_pat not found in the Bitwarden item")
-	}
-	start += len(`"github_pat":"`)
-	end := strings.Index(sessionToken[start:], `"`)
-	if end == -1 {
-		return "", fmt.Errorf("malformed GitHub PAT in Bitwarden item")
-	}
-	return sessionToken[start : start+end], nil
+	c.GithubToken = sessionToken
+	return nil
 }
 
 // GenerateSSHKey generates a new SSH key pair at the specified location
