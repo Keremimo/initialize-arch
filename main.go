@@ -27,19 +27,27 @@ func main() {
 		Username: os.Getenv("BW_USERNAME"),
 		Password: os.Getenv("BW_PASSWORD"),
 	}
-	_ = bwCredentials // Placeholder
+	err = credmanagement.CreateBitwardenAuth(bwCredentials)
+	if err != nil {
+		log.Fatalf("error: %s", err)
+	}
 	// err = credmanagement.InitializeCredentials(credentials)
 	// if err != nil {
 	// 	fmt.Println("Something horrible happened.")
 	// 	fmt.Println(err)
 	// }
-	err = execfunc.EnableBluetooth(credentials)
+	// err = execfunc.EnableBluetooth(credentials)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+	// err = execfunc.InstallPackages(credentials, "bitwarden-cli github-cli")
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+	err = execfunc.BitwardenLogin(credentials, bwCredentials)
 	if err != nil {
 		fmt.Println(err)
 	}
-	err = execfunc.InstallPackages(credentials, "bitwarden-cli github-cli")
-	if err != nil {
-		fmt.Println(err)
-	}
-
+	fmt.Println("Here's your Session token from your struct: \n")
+	fmt.Println(bwCredentials.Session)
 }

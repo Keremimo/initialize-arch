@@ -11,10 +11,11 @@ import (
 )
 
 type Credentials struct {
-	Username   string
-	Password   string
-	Email      string
-	GithubName string
+	Username    string
+	Password    string
+	Email       string
+	GithubName  string
+	GithubToken string
 }
 
 func InitializeCredentials(c *Credentials) error {
