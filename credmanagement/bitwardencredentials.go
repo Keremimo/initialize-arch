@@ -12,6 +12,7 @@ type BwCredentials struct {
 	Username  string
 	Password  string
 	TwoFactor string
+	Session   string
 }
 
 func CreateBitwardenAuth(c *BwCredentials) error {
