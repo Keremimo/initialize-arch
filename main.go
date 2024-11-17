@@ -8,6 +8,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/keremimo/initialize-arch/credmanagement"
 	"github.com/keremimo/initialize-arch/execfunc"
+	"github.com/keremimo/initialize-arch/githubssh"
 )
 
 func main() {
@@ -48,6 +49,8 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("Here's your Session token from your struct: \n")
+	fmt.Println("Here's your Session token from your struct: ")
 	fmt.Println(bwCredentials.Session)
+
+	githubssh.FetchGithubPAT(bwCredentials.Session, bwCredentials.Password, credentials)
 }
