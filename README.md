@@ -7,6 +7,4 @@ You think I'd rather use bash scripts, well I already have bash scripts. I don't
 
 When finished, it will be able to turn a minimal Arch install into a ready to rock development platform, just how I like it.
 
-Will use bitwarden cli and a few other opinionated tools.
-
-Note: Yes, I know it is stupid to use Go for this. No, I don't care that you think I should stop.
+Will use bitwarden cli and a few other opinionated tools. When the code is at a usable state, a guide to use will be released alongside.
