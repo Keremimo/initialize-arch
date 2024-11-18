@@ -27,13 +27,6 @@ func BitwardenInit(b *credmanagement.BwCredentials) error {
 }
 
 func BitwardenLogin(c *credmanagement.Credentials, b *credmanagement.BwCredentials) error {
-	// Login to Bitwarden
-	// cmd := exec.Command("bw", "login", "--raw", "--code", b.TwoFactor)
-	// var stdout, stderr bytes.Buffer
-	// cmd.Stdin = strings.NewReader(fmt.Sprintf("%s \n %s \n", b.Username, b.Password))
-	// cmd.Stdout = os.Stdout
-	// cmd.Stderr = os.Stderr
-
 	console, err := expect.NewConsole(expect.WithDefaultTimeout(5 * time.Second))
 	if err != nil {
 		return fmt.Errorf("failed to create console: %v", err)
@@ -51,15 +44,12 @@ func BitwardenLogin(c *credmanagement.Credentials, b *credmanagement.BwCredentia
 	}
 
 	// Handle input delays
-	fmt.Println("Waiting for 'Email address:' prompt...")
 	console.ExpectString("Email address:")
 	console.SendLine(b.Username)
 
-	fmt.Println("Waiting for 'Master password:' prompt...")
 	console.ExpectString("Master password:")
 	console.SendLine(b.Password)
 
-	fmt.Println("Waiting for 'Two-step login code:' prompt...")
 	console.ExpectString("Two-step login code:")
 	console.SendLine(b.TwoFactor)
 
