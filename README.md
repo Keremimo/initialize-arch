@@ -1,5 +1,5 @@
 # initialize-arch
-Personal application that initiates a post-install Arch environment in my own way.
+Personal application that initiates a post-install Arch environment in my own way as a learning project. Still incomplete.
 
 Written in Go for no other reason than learning some Go syntax while I build something useful for me.
 
